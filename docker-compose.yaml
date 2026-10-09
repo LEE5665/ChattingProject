@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    container_name: chatting-postgres
+    environment:
+      POSTGRES_DB: chatting_db
+      POSTGRES_USER: chatting_user
+      POSTGRES_PASSWORD: chatting_password
+      TZ: Asia/Seoul
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:5
+    container_name: chatting-adminer
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    ports:
+      - "127.0.0.1:8888:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
