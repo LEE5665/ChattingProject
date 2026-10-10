@@ -22,12 +22,12 @@ class AuthIntegrationTests {
         HttpClient client = HttpClient.newBuilder()
                 .cookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_ALL)).build();
         assertEquals(401, get(client, "/api/members/me").statusCode());
-        assertEquals(403, post(client, "/api/auth/login", "email=test%40example.com&password=test1234%21", null).statusCode());
-        assertEquals(401, post(client, "/api/auth/login", "email=test%40example.com&password=wrong", csrf(client)).statusCode());
-        assertEquals(204, post(client, "/api/auth/login", "email=test%40example.com&password=test1234%21", csrf(client)).statusCode());
+        assertEquals(403, post(client, "/api/auth/login", "email=test%40naver.com&password=testtest", null).statusCode());
+        assertEquals(401, post(client, "/api/auth/login", "email=test%40naver.com&password=wrong", csrf(client)).statusCode());
+        assertEquals(204, post(client, "/api/auth/login", "email=test%40naver.com&password=testtest", csrf(client)).statusCode());
         HttpResponse<String> member = get(client, "/api/members/me");
         assertEquals(200, member.statusCode());
-        assertTrue(member.body().contains("test@example.com"));
+        assertTrue(member.body().contains("test@naver.com"));
         assertFalse(member.body().contains("password"));
         assertEquals(200, get(client, "/api/members/me").statusCode());
         assertEquals(204, post(client, "/api/auth/logout", "", csrf(client)).statusCode());

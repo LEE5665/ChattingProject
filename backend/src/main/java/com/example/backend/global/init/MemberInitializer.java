@@ -20,5 +20,11 @@ public class MemberInitializer implements CommandLineRunner {
         if (memberRepository.findByEmail("test@naver.com").isEmpty()) {
             memberRepository.save(new Member("test@naver.com", passwordEncoder.encode("testtest"), "테스트 사용자"));
         }
+        for (int number = 2; number <= 3; number++) {
+            String email = "test" + number + "@naver.com";
+            if (memberRepository.findByEmail(email).isEmpty()) {
+                memberRepository.save(new Member(email, passwordEncoder.encode("testtest"), "테스트 사용자 " + number));
+            }
+        }
     }
 }
